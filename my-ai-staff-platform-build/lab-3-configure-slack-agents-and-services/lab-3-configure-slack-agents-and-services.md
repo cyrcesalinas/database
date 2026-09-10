@@ -118,7 +118,7 @@ In this lab, you will:
       "features": {
         "bot_user": {
           "display_name": "Content Agent",
-          "always_online": false
+          "always_online": true
         }
       },
       "oauth_config": {
@@ -164,7 +164,7 @@ In this lab, you will:
       "features": {
         "bot_user": {
           "display_name": "Creative Agent",
-          "always_online": false
+          "always_online": true
         }
       },
       "oauth_config": {
@@ -258,7 +258,7 @@ In this lab, you will:
       "features": {
         "bot_user": {
           "display_name": "Data Agent",
-          "always_online": false
+          "always_online": true
         }
       },
       "oauth_config": {
@@ -302,7 +302,7 @@ In this lab, you will:
       "features": {
         "bot_user": {
           "display_name": "Ops Agent",
-          "always_online": false
+          "always_online": true
         }
       },
       "oauth_config": {
@@ -346,7 +346,7 @@ In this lab, you will:
       "features": {
         "bot_user": {
           "display_name": "Publish Agent",
-          "always_online": false
+          "always_online": true
         }
       },
       "oauth_config": {
