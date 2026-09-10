@@ -61,7 +61,8 @@ In this lab, you will:
     {
       "display_information": {
         "name": "Assistant Agent",
-        "description": "Personal assistant and AI Staff coordinator."
+        "description": "Assistant",
+        "background_color": "#2c2d30"
       },
       "features": {
         "bot_user": {
@@ -72,16 +73,14 @@ In this lab, you will:
       "oauth_config": {
         "scopes": {
           "bot": [
-            "chat:write",
+            "files:read",
             "channels:history",
             "channels:read",
-            "groups:history",
-            "groups:read",
+            "chat:write",
+            "files:write",
             "im:history",
             "im:read",
             "im:write",
-            "files:read",
-            "files:write",
             "reactions:read"
           ]
         },
@@ -91,13 +90,12 @@ In this lab, you will:
         "event_subscriptions": {
           "bot_events": [
             "message.channels",
-            "message.groups",
             "message.im",
             "reaction_added"
           ]
         },
         "interactivity": {
-          "is_enabled": false
+          "is_enabled": true
         },
         "org_deploy_enabled": false,
         "socket_mode_enabled": true,
@@ -120,7 +118,7 @@ In this lab, you will:
       "features": {
         "bot_user": {
           "display_name": "Content Agent",
-          "always_online": true
+          "always_online": false
         }
       },
       "oauth_config": {
@@ -128,7 +126,9 @@ In this lab, you will:
           "bot": [
             "chat:write",
             "channels:history",
-            "channels:read"
+            "channels:read",
+            "files:write",
+            "reactions:read"
           ]
         },
         "pkce_enabled": false
@@ -136,11 +136,12 @@ In this lab, you will:
       "settings": {
         "event_subscriptions": {
           "bot_events": [
-            "message.channels"
+            "message.channels",
+            "reaction_added"
           ]
         },
         "interactivity": {
-          "is_enabled": false
+          "is_enabled": true
         },
         "org_deploy_enabled": false,
         "socket_mode_enabled": true,
@@ -163,7 +164,7 @@ In this lab, you will:
       "features": {
         "bot_user": {
           "display_name": "Creative Agent",
-          "always_online": true
+          "always_online": false
         }
       },
       "oauth_config": {
@@ -184,7 +185,7 @@ In this lab, you will:
           ]
         },
         "interactivity": {
-          "is_enabled": false
+          "is_enabled": true
         },
         "org_deploy_enabled": false,
         "socket_mode_enabled": true,
@@ -257,7 +258,7 @@ In this lab, you will:
       "features": {
         "bot_user": {
           "display_name": "Data Agent",
-          "always_online": true
+          "always_online": false
         }
       },
       "oauth_config": {
@@ -265,7 +266,8 @@ In this lab, you will:
           "bot": [
             "chat:write",
             "channels:history",
-            "channels:read"
+            "channels:read",
+            "files:write"
           ]
         },
         "pkce_enabled": false
@@ -277,7 +279,7 @@ In this lab, you will:
           ]
         },
         "interactivity": {
-          "is_enabled": false
+          "is_enabled": true
         },
         "org_deploy_enabled": false,
         "socket_mode_enabled": true,
@@ -300,7 +302,7 @@ In this lab, you will:
       "features": {
         "bot_user": {
           "display_name": "Ops Agent",
-          "always_online": true
+          "always_online": false
         }
       },
       "oauth_config": {
@@ -308,7 +310,8 @@ In this lab, you will:
           "bot": [
             "chat:write",
             "channels:history",
-            "channels:read"
+            "channels:read",
+            "files:write"
           ]
         },
         "pkce_enabled": false
@@ -320,7 +323,7 @@ In this lab, you will:
           ]
         },
         "interactivity": {
-          "is_enabled": false
+          "is_enabled": true
         },
         "org_deploy_enabled": false,
         "socket_mode_enabled": true,
@@ -343,7 +346,7 @@ In this lab, you will:
       "features": {
         "bot_user": {
           "display_name": "Publish Agent",
-          "always_online": true
+          "always_online": false
         }
       },
       "oauth_config": {
@@ -364,7 +367,7 @@ In this lab, you will:
           ]
         },
         "interactivity": {
-          "is_enabled": false
+          "is_enabled": true
         },
         "org_deploy_enabled": false,
         "socket_mode_enabled": true,
@@ -375,7 +378,7 @@ In this lab, you will:
     </copy>
     ```
 
-10. Assistant Agent and Brand Agent are the two apps that need Direct Message access. Their manifests include `im:history`, `im:read`, `im:write`, and the `message.im` event. After importing those two manifests, verify that direct messages are enabled for each app in Slack before installing it.
+10. Assistant Agent and Brand Agent are the only apps that need Direct Message access. Their manifests include `im:history`, `im:read`, `im:write`, and the `message.im` event. After importing those two manifests, verify that direct messages are enabled for each app before installing it.
 
     ![Agents with Access to direct messages](./images/03_agent_permission.png)
 
