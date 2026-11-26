@@ -20,21 +20,9 @@ In this lab, you will:
 ### Prerequisites
 
 - Completion of the workshop Introduction.
-- OCI Console permissions for Compute, VCN, and Autonomous Database.
-- A reserved public IPv4 address for Compute. Use it for Discord HTTPS and the IP certificate. You do not need a domain or DNS setup.
+- OCI Console permissions to create a Compute, VCN, and Autonomous Database.
 - A secure location for the SSH private key and wallet ZIP.
 - A region and compartment with service limits and capacity for these resources.
-
-### Architecture and Port Plan
-
-| Flow | Destination | Allowed source |
-| --- | --- | --- |
-| SSH administration | Compute TCP 22 | Your public IP with `/32` mask |
-| Public Discord endpoint | Compute TCP 80 and 443 | Internet; Nginx serves HTTP challenge files and HTTPS |
-| Bot traffic | Compute TCP 3000 | Nginx on the same host; do not allow it in OCI ingress rules |
-| Bot outbound calls | OpenRouter, Discord Gateway, ADB TLS | Compute host |
-
-Keep Compute TCP 3000 closed to the internet. Nginx accepts HTTPS on port 443 and proxies requests to the bot at `127.0.0.1:3000`.
 
 ## Task 1: Create Compute and Network Access
 
@@ -146,13 +134,26 @@ Keep Compute TCP 3000 closed to the internet. Nginx accepts HTTPS on port 443 an
 
 ## Task 3: Create Autonomous Database and Download the Wallet
 
-1. In OCI Console, open **Oracle AI Database** > **Autonomous AI Database** and select **Create Autonomous AI Database**. Enter the database name and compartment. The first image shows the creation form with Lakehouse selected; choose **Transaction Processing** for this workshop, as shown in the second image. Select a supported version and a shape and storage that fit the workshop. Always Free capacity varies by region and tenancy.
+1. From within your Oracle Cloud environment, you will create an instance of the Autonomous AI Database service.
 
-    ![Autonomous AI Database creation form](./images/lab-1-14-database-create-form.png)
+From the Cloud Dashboard, select the navigation menu icon in the upper left-hand corner, navigate to Oracle AI Database and then select Autonomous AI Database.
+    ![Choose Oracle AI database, Autonomos AI Database](./images/lab-1-27-select-adb.png)
+
+2. Click Create Autonomous AI Database.
+    ![Create Autonomos Database](./images/lab-1-28-click-create-autonomous-database.png)
+
+3. Enter/Select the following:
+ --to-do: change to add bullets
+    1. Workload Type: Transaction Processing
+    2. Always Free: Toggle ON
+    3. Choose database version: 26ai
+    4. Admin Password: enter a SecretPassw0rd password for ADMIN Click Create.
+    5. Choose Transactional Proccessing
 
     ![Select the Transaction Processing workload for Autonomous AI Database](./images/lab-1-15-select-autonomous-db-workload.png)
 
-2. Set a database administrator password in your password manager. Start database creation and wait until the state is **Available**.
+
+    ![Select the Transaction Processing workload for Autonomous AI Database settings](./images/lab-1-15.1-select-autonomous-db-workload.png)
 
 3. Open the database details page, select **Database connection**, and download the instance wallet. Set a strong wallet password. Keep the downloaded ZIP on your workstation until you transfer it over SSH.
 
@@ -249,7 +250,7 @@ Keep Compute TCP 3000 closed to the internet. Nginx accepts HTTPS on port 443 an
     </copy>
     ```
 
-    ![Configure the Nginx HTTP site and validate its configuration](./images/lab-1-18-validation.png)
+    ![Configure the Nginx HTTP site and validate its configuration](./images/lab-1-18-nginx-http-configuration.png)
 
 5. Test the HTTP challenge path. On Compute, create a test file and request it locally. From a computer outside OCI, request the same file by public IP. The response must not time out.
 
