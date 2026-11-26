@@ -42,7 +42,7 @@ Keep Compute TCP 3000 closed to the internet. Nginx accepts HTTPS on port 443 an
 
     ![Open the Create instance page in OCI Console](./images/lab-1-01-create-instance.png)
 
-2. Enter a name such as `discord-bot-host`. Choose **Oracle Linux 9** as the image. The example uses an Arm-based `VM.Standard.A1.Flex` shape. If your region has no A1 capacity, select another supported flexible shape and use the same Oracle Linux release.
+2. Enter a name such as `discord-bot-host`. Choose the latest **Oracle Linux 9** image available. Node.js 24 is in the Oracle Linux 9.7 application stream, so use version 9.7 or newer. The example uses an Arm-based `VM.Standard.A1.Flex` shape. If your region has no A1 capacity, select another supported flexible shape and keep the same operating system version.
 
     ![Select Oracle Linux 9 as the Compute image](./images/lab-1-02-select-oracle-linux.png)
 
@@ -249,7 +249,7 @@ Keep Compute TCP 3000 closed to the internet. Nginx accepts HTTPS on port 443 an
     </copy>
     ```
 
-    ![Configure the Nginx HTTP site and validate its configuration](./images/lab-1-18-configure-nginx-http-site.png)
+    ![Configure the Nginx HTTP site and validate its configuration](./images/lab-1-18-nginx-http-configuration.png)
 
 5. Test the HTTP challenge path. On Compute, create a test file and request it locally. From a computer outside OCI, request the same file by public IP. The response must not time out.
 
@@ -424,6 +424,10 @@ Keep Compute TCP 3000 closed to the internet. Nginx accepts HTTPS on port 443 an
     test -r /home/opc/hackathon-bot/wallet/ewallet.pem
     </copy>
     ```
+
+    Confirm Node.js reports version 24, Nginx is active, and its configuration test succeeds. The wallet file checks return silently when both files are readable.
+
+    ![Verify Node.js, npm, Nginx, and wallet files on the Compute host](./images/lab-1-26-check-host-foundation.png)
 
 2. From your workstation, replace `YOUR_PUBLIC_IP` and test HTTPS:
 
