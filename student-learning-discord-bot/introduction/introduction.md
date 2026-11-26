@@ -2,9 +2,9 @@
 
 ## Introduction
 
-Build and deploy a Discord learning bot. It answers prompts, researches topics, creates study guides and quizzes, teaches Oracle topics, runs reusable agents, remembers channel-scoped preferences, and finds accessible LiveLabs workshops by meaning with direct workshop links.
+Generative AI can do more than respond to a question. When connected to instructions, tools, and trusted data, it can power agents that research a topic, guide a learner through an exercise, or complete a focused task. In this workshop, you will see how an agent combines a language model with application logic and services, while the application controls which actions and data are available.
 
-Run the bot on OCI Compute. Nginx handles Discord HTTPS and forwards requests to the bot on the same host. Certbot gets and renews a short-lived certificate for the reserved public IP. You do not need a domain. OpenRouter supplies model responses. Autonomous Database stores agent profiles, personal notes, the LiveLabs catalog, and vector embeddings.
+Oracle Cloud Infrastructure (OCI) provides the foundation for the application: OCI Compute runs the bot, and Oracle Autonomous AI Database stores agent profiles and the LiveLabs workshop catalog, including vector embeddings for meaning-based search. OpenRouter connects the application to language models. Discord provides the interface learners use to interact with the agent. Nginx and Certbot provide the HTTPS endpoint Discord requires, using a reserved public IP without a domain.
 
 Estimated Workshop Time: 120 minutes.
 
@@ -35,14 +35,11 @@ Keep Compute port 3000 closed to public ingress. Nginx proxies traffic locally t
 
 The ZIP excludes `.env`, wallet files, and credentials. Download the wallet from Autonomous Database, transfer it securely to Compute, and create `.env` there. Use synthetic data. Channel members can see bot replies in a server channel.
 
-## Workshop Labs
+## The Learning Agent
 
-1. Lab 1: Prepare OCI Compute, Autonomous Database, wallet access, and an HTTPS endpoint (35 minutes).
-2. Lab 2: Download the bot package and configure Discord and OpenRouter (25 minutes).
-3. Lab 3: Configure database storage, memory, and LiveLabs search (35 minutes).
-4. Lab 4: Run the service and verify Discord workflows (30 minutes).
+At the end of the workshop, you will have a Discord learning agent that can answer questions, research topics with sources, prepare study guides and quizzes, and explain Oracle Cloud and Oracle AI Database concepts. It can also query approved database information, find relevant LiveLabs workshops through semantic search, and run reusable, learner-created agents. Together, these capabilities show how Oracle Cloud and Autonomous AI Database can support practical AI applications, from hosting the service to storing agent data and powering vector search.
 
 ## Acknowledgements
 
 - Authors: Cyrce Salinas Rojas and Ilan Gómez Guerrero
-- Last Updated: Ilan Gómez Guerrero, November 2026
+- Last Updated:  Cyrce Salinas Rojas, November 2026

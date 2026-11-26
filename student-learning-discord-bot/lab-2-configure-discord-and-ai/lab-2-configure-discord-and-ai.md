@@ -18,15 +18,12 @@ In this lab, you will:
 ### Prerequisites
 
 - Finish Lab 1. You need system Node.js 24, SSH access, a reserved IP, and a valid IP certificate.
-- The [hackathon-bot ZIP in OCI Object Storage](https://c4u02.objectstorage.us-ashburn-1.oci.customer-oci.com/p/9DEArLjsgbKXuJgQtSG95E8hMXRFtxgHR8jiHbqz4HgyVYXVnSo0SC_s-zq5CJA3/n/c4u02/b/hosted-files/o/hackathon-bot.zip).
 - Discord Developer Portal access and a private test server.
 - An OpenRouter API key and model name available to your account.
 
 ## Task 1: Download and Inspect the Bot Package
 
-1. Open the [hackathon-bot ZIP link](https://c4u02.objectstorage.us-ashburn-1.oci.customer-oci.com/p/9DEArLjsgbKXuJgQtSG95E8hMXRFtxgHR8jiHbqz4HgyVYXVnSo0SC_s-zq5CJA3/n/c4u02/b/hosted-files/o/hackathon-bot.zip). Anyone with this link can download the file.
-
-2. Download the package to the Compute host with the Object Storage PAR.
+1. Download the package to the Compute host with the Object Storage PAR.
 
     ```sh
     <copy>
@@ -35,7 +32,7 @@ In this lab, you will:
     </copy>
     ```
 
-3. Inspect the archive before extraction. Confirm its top-level folder is `hackathon-bot/`. Inside that folder, confirm it contains `.env.sample`, `LICENSE`, package files, `app.js`, `agents/`, `db/`, `livelabs/`, `scripts/`, and `data/livelabs/workshops.csv`. Confirm it does not contain `.env`, wallets, keys, credentials, or `node_modules`.
+2. Inspect the archive before extraction. Confirm its top-level folder is `hackathon-bot/`. Inside that folder, confirm it contains `.env.sample`, `LICENSE`, package files, `app.js`, `agents/`, `db/`, `livelabs/`, `scripts/`, and `data/livelabs/workshops.csv`. Confirm it does not contain `.env`, wallets, keys, credentials, or `node_modules`.
 
     ```sh
     <copy>
@@ -45,7 +42,7 @@ In this lab, you will:
 
     ![Download the bot ZIP from OCI Object Storage and inspect its contents](./images/lab-2-01-download-inspect-bot-package.png)
 
-4. Extract the package into `/home/opc`. Because the ZIP already contains the `hackathon-bot/` folder, this places the files directly in `/home/opc/hackathon-bot` and preserves the wallet directory from Lab 1. Install production dependencies and create a private environment file.
+3. Extract the package into `/home/opc`. Because the ZIP already contains the `hackathon-bot/` folder, this places the files directly in `/home/opc/hackathon-bot` and preserves the wallet directory from Lab 1. Install production dependencies and create a private environment file.
 
     ```sh
     <copy>
@@ -58,7 +55,7 @@ In this lab, you will:
     </copy>
     ```
 
-    Keep the original `.env.sample` unchanged. Keep `.env` on Compute. Do not add it to the asset ZIP.
+    Keep the original `.env.sample` unchanged. Keep `.env` on your compute.
 
 ## Task 2: Create and Install a Discord Application
 
