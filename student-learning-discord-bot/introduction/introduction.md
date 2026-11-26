@@ -6,7 +6,7 @@ Generative AI can do more than respond to a question. When connected to instruct
 
 Oracle Cloud Infrastructure (OCI) provides the foundation for the application: OCI Compute runs the bot, and Oracle Autonomous AI Database stores agent profiles and the LiveLabs workshop catalog, including vector embeddings for meaning-based search. OpenRouter connects the application to language models. Discord provides the interface learners use to interact with the agent. Nginx and Certbot provide the HTTPS endpoint Discord requires, using a reserved public IP without a domain.
 
-Estimated Workshop Time: 120 minutes.
+Estimated Workshop Time: 125 minutes.
 
 ### Objectives
 
@@ -15,7 +15,7 @@ In this workshop, you will:
 - Prepare an OCI host, network rules, Autonomous Database, and TLS endpoint.
 - Download an approved bot package from OCI Object Storage.
 - Configure a Discord application and OpenRouter without committing credentials.
-- Set up private database storage and a prevalidated LiveLabs catalog with semantic vector search.
+- Set up private database storage and semantic search over the bundled LiveLabs catalog.
 - Run automated production setup and verify all nine commands.
 
 ### Prerequisites
@@ -24,7 +24,7 @@ In this workshop, you will:
 - Discord Developer Portal access and a private server where you can install a test bot.
 - An OpenRouter API key and a model available to your account.
 - Reserve a public IPv4 address. The workshop uses an IP certificate, so you do not need a domain or DNS account.
-- The [hackathon-bot ZIP in OCI Object Storage](https://c4u02.objectstorage.us-ashburn-1.oci.customer-oci.com/p/9DEArLjsgbKXuJgQtSG95E8hMXRFtxgHR8jiHbqz4HgyVYXVnSo0SC_s-zq5CJA3/n/c4u02/b/hosted-files/o/hackathon-bot.zip).
+- The hackathon-bot ZIP in OCI Object Storage
 - A workstation with a browser, SSH/SFTP client, and a secure password manager.
 
 ## Architecture
