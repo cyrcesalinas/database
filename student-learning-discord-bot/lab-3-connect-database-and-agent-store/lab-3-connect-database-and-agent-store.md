@@ -11,7 +11,7 @@ Estimated Time: 35 minutes.
 In this lab, you will:
 
 - Configure one database user for the workshop features.
-- Create the agent profile and personal-memory tables.
+- Create the agent profile and personal-memory tables, then load and verify six example agent profiles.
 - Validate wallet-backed node-oracledb connections without exposing secrets.
 - Install the LiveLabs catalog, model, and vector embeddings.
 - Verify database status, private storage, and semantic search.
@@ -22,7 +22,7 @@ In this lab, you will:
 - Autonomous Database is available, and its wallet is under `/home/opc/hackathon-bot/wallet`.
 - Turn on Database Actions for the Autonomous Database.
 - Access to Database Actions as `ADMIN` so you can create a non-`ADMIN` workshop user.
-
+--to-do: hablar si si necesitas hacer el paso 1 para apex, este paso contemplaba el onnx para natural language -> sql usando ia.
 ## Task 1: Prepare the Database User
 
 1. Connect to Database Actions as `ADMIN`. From the Autonomous Database page, open **Database actions > Database Users**.
@@ -37,71 +37,19 @@ In this lab, you will:
 
     ![Enter the new database user and password](./images/lab-3-10-create-workshop-user.png)
 
-2. Still connected as `ADMIN`, replace `<BOT_DATABASE_USER>` with the user you just created and grant the permissions used in this lab.
-
-    ```sql
-    <copy>
-    GRANT CREATE SESSION, CREATE TABLE, CREATE MINING MODEL
-      TO <BOT_DATABASE_USER>;
-    ALTER USER <BOT_DATABASE_USER> QUOTA 100M ON DATA;
-    GRANT READ, WRITE ON DIRECTORY DATA_PUMP_DIR
-      TO <BOT_DATABASE_USER>;
-    </copy>
-    ```
-
-    `CREATE MINING MODEL` and directory access let the installer load Oracle's public ONNX model. These privileges do not grant access to another application's tables.
-
 3. In **Administration > Database Users**, enable **Web Access** for the workshop user so you can use it in the next task. See [Oracle Database Actions access instructions](https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/connect-database-actions.html).
 
-## Task 2: Create the Agent Profile Table
+## Task 2: Create the Agent Profile Table and Load Examples
 
-1. In OCI Database Actions, connect as the workshop user you created in Task 1. Open **SQL Actions > SQL Worksheet**. Run the fresh-install [agent-store-schema.sql](./files/agent-store-schema.sql) below with **Run Script**. This creates the profile table owned by the account you used to connect.
+1. In OCI Database Actions, connect as the workshop user you created in Task 1. Open **SQL Actions > SQL Worksheet**.
 
-    ```sql
-    <copy>
-    CREATE TABLE AGENT_PROFILES (
-      AGENT_ID VARCHAR2(36 CHAR) NOT NULL,
-      OWNER_USER_ID VARCHAR2(32 CHAR) NOT NULL,
-      NAME VARCHAR2(32 CHAR) NOT NULL,
-      GOAL VARCHAR2(1000 CHAR) NOT NULL,
-      STYLE VARCHAR2(300 CHAR) NOT NULL,
-      CAPABILITY VARCHAR2(16 CHAR) NOT NULL,
-      PRESET VARCHAR2(32 CHAR) DEFAULT 'custom' NOT NULL,
-      TOOLS_JSON VARCHAR2(500 CHAR) DEFAULT '[]' NOT NULL,
-      RESPONSE_FORMAT VARCHAR2(32 CHAR) DEFAULT 'balanced' NOT NULL,
-      LANGUAGE VARCHAR2(8 CHAR) DEFAULT 'auto' NOT NULL,
-      VERSION_NO NUMBER(10) DEFAULT 1 NOT NULL,
-      CREATED_AT TIMESTAMP WITH TIME ZONE DEFAULT SYSTIMESTAMP NOT NULL,
-      UPDATED_AT TIMESTAMP WITH TIME ZONE DEFAULT SYSTIMESTAMP NOT NULL,
-      CONSTRAINT AGENT_PROFILES_PK PRIMARY KEY (AGENT_ID),
-      CONSTRAINT AGENT_PROFILES_CAPABILITY_CK
-        CHECK (CAPABILITY IN ('chat', 'study', 'research', 'custom')),
-      CONSTRAINT AGENT_PROFILES_TOOLS_JSON_CK CHECK (TOOLS_JSON IS JSON),
-      CONSTRAINT AGENT_PROFILES_RESPONSE_CK
-        CHECK (RESPONSE_FORMAT IN (
-          'balanced', 'concise', 'detailed', 'step_by_step', 'structured', 'report'
-        )),
-      CONSTRAINT AGENT_PROFILES_LANGUAGE_CK
-        CHECK (LANGUAGE IN ('auto', 'en', 'es')),
-      CONSTRAINT AGENT_PROFILES_VERSION_CK CHECK (VERSION_NO >= 1)
-    );
-
-    CREATE UNIQUE INDEX AGENT_PROFILES_NAME_UQ
-      ON AGENT_PROFILES (UPPER(NAME));
-    </copy>
-    ```
+2. Download [setup-all-tables.sql](https://c4u02.objectstorage.us-ashburn-1.oci.customer-oci.com/p/9DEArLjsgbKXuJgQtSG95E8hMXRFtxgHR8jiHbqz4HgyVYXVnSo0SC_s-zq5CJA3/n/c4u02/b/hosted-files/o/setup-all-tables.sql). In the worksheet, open the downloaded file and select **Run Script**. 
 
     ![Create the AGENT_PROFILES table and unique name index](./images/lab-3-02-create-agent-profiles-table.png)
 
-2. Confirm the table exists.
+3. Download [seed-workshop-agents.sql](https://c4u02.objectstorage.us-ashburn-1.oci.customer-oci.com/p/9DEArLjsgbKXuJgQtSG95E8hMXRFtxgHR8jiHbqz4HgyVYXVnSo0SC_s-zq5CJA3/n/c4u02/b/hosted-files/o/seed-workshop-agents.sql). Open the downloaded file in the same SQL Worksheet and select **Run Script**. 
+    ![Create the AGENT_PROFILES table and unique name index](./images/lab-3-02.5-create-agent-profiles-table.png)
 
-    ```sql
-    <copy>
-    SELECT table_name FROM user_tables WHERE table_name = 'AGENT_PROFILES';
-    </copy>
-    ```
-
-    ![Confirm that AGENT_PROFILES exists in the table-owner schema](./images/lab-3-03-confirm-agent-profiles-table.png)
 
 ## Task 3: Configure and Validate Database Access
 
@@ -124,24 +72,16 @@ In this lab, you will:
     ADB_WALLET_DIR=/home/opc/hackathon-bot/wallet
     ADB_WALLET_PASSWORD=<WALLET_PASSWORD_FROM_LAB_1>
     ADB_CATALOG_OWNER=
-    AGENT_STORE_USER=
-    AGENT_STORE_PASSWORD=
     AGENT_STORE_OWNER=
-    USER_MEMORY_USER=
-    USER_MEMORY_PASSWORD=
     USER_MEMORY_OWNER=
     LIVELABS_DB_USER=
     LIVELABS_DB_PASSWORD=
     </copy>
     ```
+    --to-do: describir bien de que lab, de que paso de que sitio se obtiene cada valor 
 
-    | Optional setting | Default when blank |
-    | --- | --- |
-    | `AGENT_STORE_USER`, `AGENT_STORE_PASSWORD` | `ADB_USER`, `ADB_PASSWORD` |
-    | `AGENT_STORE_OWNER` | `ADB_USER` |
-    | `USER_MEMORY_USER`, `USER_MEMORY_PASSWORD` | Agent store account, then ADB account |
-    | `USER_MEMORY_OWNER` | Agent store owner, then memory account |
-    | `LIVELABS_DB_USER`, `LIVELABS_DB_PASSWORD` | `ADB_USER`, `ADB_PASSWORD` |
+    
+    Agent profiles and personal memory use `ADB_USER` and `ADB_PASSWORD`. Leave `AGENT_STORE_OWNER` and `USER_MEMORY_OWNER` blank when their tables are owned by `ADB_USER`; set an owner only when the tables live in another schema. `LIVELABS_DB_USER` and `LIVELABS_DB_PASSWORD` default to `ADB_USER` and `ADB_PASSWORD`.
 
 3. Protect `.env`, then run deployment preflight. It checks required variables, permissions, wallet files, ADB, agent storage, and the LiveLabs database connection without printing secret values.
 
@@ -208,7 +148,7 @@ In this lab, you will:
 
 2. In Discord, run `/db` and select **Check the bot connection to ADB**. Confirm the connection is available. Private agent, memory, and LiveLabs tables are intentionally excluded from generic `/db` discovery and queries.
 
-3. In Discord, open `/agent` and create a small test agent. In the SSH session, stop the foreground bot with `Ctrl+C`, then run `npm start` again. Return to `/agent` and confirm the saved profile is still available.
+3. The bot also provides `/agent` to create and manage personal agent profiles. The six `WORKSHOP_DEMO` examples used in this lab are loaded directly into the database in Task 2.
 
 4. Keep the command-line LiveLabs result from Task 4 for comparison with the Discord result in Lab 4.
 

@@ -99,6 +99,8 @@ In this lab, you will:
 
 ## Task 2: Install Node.js and Host Tools
 
+--to-do: estaria bien agregar la extension de vs code que desarrollamos para facilitarle al usuario el uso de la vm
+
 1. On your workstation, open a terminal. Use the private key you downloaded in Task 1 and the instance reserved public IP. Replace both placeholders with the actual file name and IP. Keep the key private.
 
     ```sh
@@ -180,7 +182,6 @@ From the Cloud Dashboard, select the navigation menu icon in the upper left-hand
     chmod 600 /home/opc/hackathon-bot/wallet.zip
     unzip -o /home/opc/hackathon-bot/wallet.zip \
       -d /home/opc/hackathon-bot/wallet
-    chmod 600 /home/opc/hackathon-bot/wallet.zip
     chmod 700 /home/opc/hackathon-bot/wallet
     chmod 600 /home/opc/hackathon-bot/wallet/*
     ls -l /home/opc/hackathon-bot/wallet
