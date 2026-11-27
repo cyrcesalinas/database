@@ -32,7 +32,7 @@ In this lab, you will:
     </copy>
     ```
 
-2. Extract the package into `/home/opc`. Because the ZIP already contains the `hackathon-bot/` folder, this places the files directly in `/home/opc/hackathon-bot` and preserves the wallet directory from Lab 1. Install production dependencies and create a private environment file.
+2. Extract the package into `/home/opc`. Install production dependencies and create a private environment file.
 
     ```sh
     <copy>
@@ -44,8 +44,6 @@ In this lab, you will:
     chmod 600 .env
     </copy>
     ```
-
-    Keep the original `.env.sample` unchanged. Keep `.env` on your compute.
 
 ## Task 2: Create and Install a Discord Application
 
