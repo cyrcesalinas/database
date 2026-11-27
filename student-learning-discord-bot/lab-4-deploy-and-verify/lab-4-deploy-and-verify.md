@@ -12,8 +12,9 @@ In this lab, you will:
 
 - Run automated preflight, tests, LiveLabs checks, command registration, and service installation.
 - Confirm the Nginx HTTPS proxy and Discord interaction handshake.
-- Test all nine bot commands, mentions, file handling, memory isolation, and agent behavior.
+- Test all nine bot commands, mentions, file handling, memory isolation, and agent behavior with the six demo profiles loaded and a participant-owned agent.
 - Review service status, logs, and restart behavior.
+- Confirm that the Lab 3 agent profiles remain available after the service restart for the Lab 5 APEX report.
 
 ### Prerequisites
 
@@ -161,7 +162,11 @@ In this lab, you will:
 
     ![View the private Agent Center controls](./images/lab-4-17-view-agent-center.png)
 
-11. Select **Create agent**. Enter a non-sensitive name, goal, and response style. Select a preset and response language, submit the form, review the preview, and save the agent.
+11. First verify an example loaded in Lab 3. Select **Browse agents**, choose **Search**, and search for `demo-help-desk`. Confirm the name appears with the **Community** label. Open its details and confirm that **Run** and **Back** are available. Select **Run**, ask `¿Para qué sirve una clave primaria?`, and confirm that the bot replies in the server channel.
+
+    If `demo-help-desk` is missing, stop this check and review the Lab 3 verification and the database configured for the bot. Do not create this example manually; that would hide a failed database-read check.
+
+12. Return to `/agent` and select **Create agent**. Use a unique name such as `lab4-tutor-<suffix>`; if the name is already in use, choose another short suffix. Enter the goal `Ayudar a repasar conceptos de bases de datos.` and a brief response style. Select the **General assistant** preset, review the preview, and save the agent.
 
     ![Enter the new agent profile details](./images/lab-4-18-create-agent-profile.png)
 
@@ -171,17 +176,21 @@ In this lab, you will:
 
     ![Confirm that the agent was saved](./images/lab-4-21-confirm-agent-saved.png)
 
-12. Select **Test privately** and enter a sample request. Confirm that the response says **Only you can see this**. Select **Edit**, change one profile field, and save the update.
+13. Browse agents and search for the new profile. Confirm it is labeled **Your agent**. Open its details, select **Test privately**, and ask `¿Para qué sirve una clave primaria?`. Confirm Discord indicates **Only you can see this**.
+
+14. From the profile details, select **Edit**. Change the goal exactly to `Ayudar a repasar claves primarias con ejemplos.` and save. Close the Agent Center, open `/agent` again, search for the profile, and confirm its details show the edited goal. This verifies that the update persisted.
 
     ![Confirm the private agent test response](./images/lab-4-22-confirm-private-agent-test.png)
 
     ![Edit a field in the saved agent profile](./images/lab-4-23-edit-agent.png)
 
-13. Return to **Run agent**, select the saved agent, and enter a non-sensitive request. Confirm that the normal response is visible in the server channel. Then browse the agent, review its details, and delete the workshop test agent.
+15. Select **Run agent**, choose the participant-owned profile, and ask `¿Para qué sirve una clave primaria?`. Confirm that the response appears in the server channel.
 
     ![Select the saved agent to run](./images/lab-4-24-select-agent-to-run.png)
 
     ![Confirm the normal agent response in the server channel](./images/lab-4-25-confirm-public-agent-run.png)
+
+16. Browse agents, search for the participant-owned profile, and open its details. Confirm the name before selecting **Delete**, then confirm deletion. Search for the exact name again and confirm that no result is returned.
 
     ![Browse the available agents](./images/lab-4-26-browse-agents.png)
 
@@ -200,6 +209,32 @@ In this lab, you will:
     sudo journalctl -u discord-example.service -n 20 --no-pager
     </copy>
     ```
+
+2. In Discord, open `/agent`, browse agents, and search for `demo-help-desk` again. Confirm it appears as **Community** after the restart. This checks that the bot can reload the Lab 3 database profile.
+
+3. In Database Actions, connected as the workshop user, run this query to confirm that the six example profiles intended for the Lab 5 APEX report remain in the table:
+
+    ```sql
+    <copy>
+    SELECT name, preset, language
+    FROM agent_profiles
+    WHERE owner_user_id = 'WORKSHOP_DEMO'
+    ORDER BY name;
+    </copy>
+    ```
+
+    Confirm these six rows are returned:
+
+    | NAME | PRESET | LANGUAGE |
+    | --- | --- | --- |
+    | demo-cloud-research | researcher | en |
+    | demo-guia-oci | general | es |
+    | demo-help-desk | general | auto |
+    | demo-investiga-datos | researcher | es |
+    | demo-study-coach | study_coach | en |
+    | demo-tutor-sql | tutor | es |
+
+    The three rows with `LANGUAGE = 'es'` should be available for the Lab 5 Spanish-language report. During technical workshop validation, compare all 13 stored fields for these six rows with the Lab 3 baseline, including `VERSION_NO`, `CREATED_AT`, and `UPDATED_AT`; they should be unchanged.
 
 ## Acknowledgements
 

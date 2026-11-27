@@ -32,17 +32,7 @@ In this lab, you will:
     </copy>
     ```
 
-2. Inspect the archive before extraction. Confirm its top-level folder is `hackathon-bot/`. Inside that folder, confirm it contains `.env.sample`, `LICENSE`, package files, `app.js`, `agents/`, `db/`, `livelabs/`, `scripts/`, and `data/livelabs/workshops.csv`. Confirm it does not contain `.env`, wallets, keys, credentials, or `node_modules`.
-
-    ```sh
-    <copy>
-    unzip -l /tmp/hackathon-bot.zip
-    </copy>
-    ```
-
-    ![Download the bot ZIP from OCI Object Storage and inspect its contents](./images/lab-2-01-download-inspect-bot-package.png)
-
-3. Extract the package into `/home/opc`. Because the ZIP already contains the `hackathon-bot/` folder, this places the files directly in `/home/opc/hackathon-bot` and preserves the wallet directory from Lab 1. Install production dependencies and create a private environment file.
+2. Extract the package into `/home/opc`. Because the ZIP already contains the `hackathon-bot/` folder, this places the files directly in `/home/opc/hackathon-bot` and preserves the wallet directory from Lab 1. Install production dependencies and create a private environment file.
 
     ```sh
     <copy>
@@ -91,6 +81,8 @@ In this lab, you will:
 
     - **Scopes:** `applications.commands`, `bot`
     - **Permissions:** **View Channels**, **Send Messages**, **Read Message History**, **Attach Files**
+--to-do: esta lista de permisos ni imagen no coincide con los permisos otorgados en - Review the authorization page. It should request **View Channels**, **Send Messages**, **Read Message History**, and **Attach Files** only. If you see another permission, close the dialog and remove it from the **Installation** settings. Save the change, then reopen the install link., necesitas volver a tomar la foto y actualizar la lista de permisos. No adjuntes el permiso ban members!
+
 
     Then select **Save Changes**.
 
@@ -117,6 +109,8 @@ In this lab, you will:
     - Review the authorization page. It should request **View Channels**, **Send Messages**, **Read Message History**, and **Attach Files** only. If you see another permission, close the dialog and remove it from the **Installation** settings. Save the change, then reopen the install link.
 
         ![Review the requested bot permissions before authorization](./images/lab-2-15-authorize-bot-permissions.png)
+
+    --to-do: esta fotografia incluye el permiso ban members que no deberia. volver a tomarla
 
     - When the permissions match Step 8, select **Authorize**, complete the verification prompt, and confirm that the bot appears in the server member list.
 
@@ -186,22 +180,8 @@ In this lab, you will:
     ```text
     <copy>
     OPENROUTER_API_KEY=YOUR_OPENROUTER_API_KEY
-    OPENROUTER_MODEL=openrouter/free
-    OPENROUTER_STUDY_MODEL=
-    OPENROUTER_DATETIME_TIMEZONE=America/Mexico_City
-    OPENROUTER_AGENT_DATA_COLLECTION=deny
     </copy>
     ```
-
-    | Variable | Required | Purpose |
-    | --- | --- | --- |
-    | `OPENROUTER_API_KEY` | Yes | Authenticates the bot with OpenRouter. Treat it as a secret and never place it in screenshots, workshop notes, or chat. |
-    | `OPENROUTER_MODEL` | Yes | Sets the default model for the bot's AI requests. `openrouter/free` routes each request to a compatible free model available at that time. |
-    | `OPENROUTER_STUDY_MODEL` | No | Overrides the model used by `/study`. Leave it empty to use `OPENROUTER_MODEL`. |
-    | `OPENROUTER_DATETIME_TIMEZONE` | No | Sets the IANA timezone used by the bot's datetime tool. Replace the example with your timezone if needed. An invalid value falls back to `America/New_York`. |
-    | `OPENROUTER_AGENT_DATA_COLLECTION` | No | Controls provider eligibility for `/agent`. Keep `deny` unless you have reviewed and accepted a provider's data policy. Any other value is treated as `deny`. |
-
-The data-collection setting applies to `/agent`. The bot uses `OPENROUTER_MODEL` for other AI features, including memory in Lab 3; there is no separate memory-model setting. With `deny`, some free-model requests may have fewer compatible providers.
 
 12. Save `.env`, then confirm its permissions.
 
@@ -212,7 +192,7 @@ The data-collection setting applies to `/agent`. The bot uses `OPENROUTER_MODEL`
     </copy>
     ```
 
-    Expect mode `600` and owner `opc`. Do not print or screenshot the file contents.
+    Expect mode `600` and owner `opc`.
 
 ## Task 4: Register Commands and Start the Bot
 
